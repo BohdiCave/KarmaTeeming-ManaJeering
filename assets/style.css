@@ -1,0 +1,66 @@
+body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color: rgba(176, 196, 222, 0.5);
+}
+
+.team-heading {
+    height: 250px;
+    padding-left: 0;
+    padding-top: 0;
+    background-image: url("./RP-P-1994-2.jpg");
+    background-size: 110%;
+    background-position: top -190px left -50px;
+}
+
+.text-center {
+    text-align: left !important;
+    width: 15%;
+    position: fixed;
+    padding-left: 15px;
+    padding-bottom: 10px; 
+    color: rgba(5, 43, 97, 0.6);
+    background-color: rgba(210, 132, 218, 0.5);
+    border-bottom-right-radius: 5px;
+}
+
+.team-area {
+    width: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.employee-card {
+    margin: 20px 0px;
+}
+
+.card {
+    width: 18rem;
+}
+
+.card-header {
+    background-color: rgba(101, 99, 211, 0.6);
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.card-header h4 {
+    margin: 0 5px;
+    color: rgba(5, 43, 97, 0.9);
+}
+
+.card-body {
+    background-color: rgba(210, 132, 218, 0.7);
+}
+
+.list-group-item {
+    padding: 5px 10px;
+    background-color: rgba(176, 196, 222, 0.5)
+}
+
+a {
+    color: rgba(5, 43, 97, 0.8);
+}
