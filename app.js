@@ -9,7 +9,82 @@ const OUTPUT_DIR = path.resolve(__dirname, "output");
 const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
+const Employee = require("./lib/Employee");
 
+let engineer = "";
+let intern = "";
+let manager = "";
+
+inquirer
+    .prompt([
+        {
+            type: "input",
+            message: "What are your first and last names?",
+            name: "name"
+        },
+        {
+            type: "input",
+            message: "What is your employee ID#?",
+            name: "id"
+        },
+        {
+            type: "input",
+            message: "What is your email?",
+            name: "email"
+        },
+        {
+            type: "input",
+            message: "What is your role on the team?",
+            name: "role"
+        }
+    ])
+    .then(function(response) {
+        let name = response.name;
+        let id = response.id;
+        let email = response.email;
+        let role = response.role.toLowerCase();
+
+        if (role === "engineer") {
+            inquirer
+                .prompt({
+                    type: "input",
+                    message: "What is your GitHub user name?",
+                    name: "github"
+                })
+                .then(function(response) {
+                    let github = response.github;
+                    console.log(`${github} is an engineer of human souls!`);
+                    engineer = new Engineer(name, id, email, github);
+                    console.log(engineer);
+                })
+        } else if (role === "manager") {
+            inquirer 
+                .prompt({
+                    type: "input",
+                    message: "What is your office number?",
+                    name: "office"
+                })
+                .then(function(response) {
+                    let office = response.office;
+                    console.log(`The director of travelers' souls sits in room ${office}!`);
+                    manager = new Manager(name, id, email, office);
+                    console.log(manager);
+                })
+        } else if (role === "intern") {
+            inquirer
+                .prompt({
+                    type: "input",
+                    message: "What is the name of your college or university?",
+                    name: "college"
+                })
+                .then(function(response) {
+                    let college = response.college;
+                    console.log(`The future shepherd of AI studies at ${college}!`);
+                    intern = new Intern(name, id, email, college);
+                    console.log(intern);
+                })
+        }
+    });
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
