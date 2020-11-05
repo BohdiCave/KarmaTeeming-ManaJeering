@@ -78,6 +78,7 @@ function addMore() {
                 addEmployee();
             } else {
                 console.log(employees);
+                fs.writeFileSync(outputPath, render(employees));
                 return;
             }
         })
@@ -105,7 +106,7 @@ function addEmployee() {
                 type: "input",
                 message: "What is the new employee's email?",
                 name: "email"
-            }
+            } 
         ])
         .then(response => {
             let empName = response.name;
