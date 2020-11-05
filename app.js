@@ -14,77 +14,138 @@ const Employee = require("./lib/Employee");
 let engineer = "";
 let intern = "";
 let manager = "";
+const employees = [];
 
 inquirer
-    .prompt([
-        {
-            type: "input",
-            message: "What are your first and last names?",
-            name: "name"
-        },
-        {
-            type: "input",
-            message: "What is your employee ID#?",
-            name: "id"
-        },
-        {
-            type: "input",
-            message: "What is your email?",
-            name: "email"
-        },
-        {
+    .prompt({
             type: "input",
             message: "What is your role on the team?",
             name: "role"
-        }
-    ])
-    .then(function(response) {
-        let name = response.name;
-        let id = response.id;
-        let email = response.email;
+    })
+    .then(response => {
         let role = response.role.toLowerCase();
-
-        if (role === "engineer") {
-            inquirer
-                .prompt({
+        if (role === "manager") {
+            inquirer.prompt([
+                {
                     type: "input",
-                    message: "What is your GitHub user name?",
-                    name: "github"
-                })
-                .then(function(response) {
-                    let github = response.github;
-                    console.log(`${github} is an engineer of human souls!`);
-                    engineer = new Engineer(name, id, email, github);
-                    console.log(engineer);
-                })
-        } else if (role === "manager") {
-            inquirer 
-                .prompt({
+                    message: "What are your first and last names?",
+                    name: "name"
+                },
+                {
+                    type: "input",
+                    message: "What is your employee ID#?",
+                    name: "id"
+                },
+                {
+                    type: "input",
+                    message: "What is your email?",
+                    name: "email"
+                },
+                {
                     type: "input",
                     message: "What is your office number?",
                     name: "office"
-                })
-                .then(function(response) {
-                    let office = response.office;
-                    console.log(`The director of travelers' souls sits in room ${office}!`);
-                    manager = new Manager(name, id, email, office);
-                    console.log(manager);
-                })
-        } else if (role === "intern") {
-            inquirer
-                .prompt({
-                    type: "input",
-                    message: "What is the name of your college or university?",
-                    name: "college"
-                })
-                .then(function(response) {
-                    let college = response.college;
-                    console.log(`The future shepherd of AI studies at ${college}!`);
-                    intern = new Intern(name, id, email, college);
-                    console.log(intern);
-                })
+                }                
+            ])
+            .then(response => {
+                let name = response.name;
+                let id = response.id;
+                let email = response.email;
+                let office = response.office;
+                manager = new Manager(name, id, email, office);
+                employees.push(manager);
+                addMore();            
+            })
+        } else {
+            console.log("This app is for managers' use only!");
+            return;
         }
-    });
+    })
+
+function addMore() {
+    inquirer
+        .prompt({
+            type: "input",
+            message: "Do you want to enter additional employees? Y/N",
+            name: "add"
+        })
+        .then(response => {
+            let add = response.add.toLowerCase();
+            if (add === "y") {
+                addEmployee();
+            } else if (add === "n" && employees.length < 2) {
+                console.log("Your team must have more than 1 person!");
+                addEmployee();
+            } else {
+                console.log(employees);
+                return;
+            }
+        })
+}
+                                
+function addEmployee() {
+    inquirer
+        .prompt([
+            {
+                type: "input",
+                message: "What is the new employee's role on the team?",
+                name: "role"
+            },
+            {
+                type: "input",
+                message: "What are the new employee's first and last names?",
+                name: "name"
+            },
+            {
+                type: "input",
+                message: "What is the new employee's id?",
+                name: "id"
+            },
+            {
+                type: "input",
+                message: "What is the new employee's email?",
+                name: "email"
+            }
+        ])
+        .then(response => {
+            let empName = response.name;
+            let empId = response.id;
+            let empEmail = response.email;
+            let empRole = response.role.toLowerCase();
+            newEmpRole(empName, empId, empEmail, empRole);
+        })            
+}
+
+function newEmpRole(empName, empId, empEmail, empRole) {
+    if (empRole === "engineer") {
+        inquirer
+            .prompt({
+                type: "input",
+                message: "What is the new engineer's GitHub user name?",
+                name: "github"
+            })
+            .then(response => {
+                let github = response.github;
+                engineer = new Engineer(empName, empId, empEmail, github);
+                employees.push(engineer);
+                addMore();
+            })
+    } else if (empRole === "intern") {
+        inquirer
+            .prompt({
+                type: "input",
+                message: "What school does the new intern attend?",
+                name: "college"
+            })
+            .then(response => {
+                let college = response.college;
+                intern = new Intern(empName, empId, empEmail, college);
+                employees.push(intern);
+                addMore();
+            })
+    }
+}
+           
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
